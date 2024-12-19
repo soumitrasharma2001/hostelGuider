@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Guider</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+       * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #83a4d4, #b6fbff);
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: transparent; /* Fully transparent background */
+            box-shadow: none;
+            z-index: 500;
+        }
+
+        .navbar .site-name {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar .upload-button {
+            background-color: #4a90e2;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .upload-button:hover {
+            background-color: #357abf;
+        }
+        /* Container */
+        .container {
+            max-width: 500px;
+            width: 90%;
+            padding: 25px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 80px; /* Adds spacing below navbar */
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #4a90e2;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #357abf;
+        }
+        #alert1,#alert2{
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <%if(statusCode===500){%>
+   <div id="alert1" class="fixed top-0 left-1/2 transform -translate-x-1/2 w-11/12 md:w-1/2 bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-b-lg shadow-lg z-50" role="alert">
+  <span class="block sm:inline text-center font-semibold">Failed to upload!</span>
+  <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+    <svg onclick="document.getElementById('alert1').style.display='none';" 
+         class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+      <title>Close</title>
+      <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+    </svg>
+  </span>
+</div>
+
+    <%}else if(statusCode===200){%>
+    <div id="alert2" class="fixed top-0 left-1/2 transform -translate-x-1/2 w-11/12 md:w-3/4 lg:w-1/2 bg-blue-100 border border-blue-400 text-blue-700 px-6 py-4 rounded-b-lg shadow-lg z-50" role="alert">
+  <span class="block sm:inline font-semibold text-center">Data uploaded successfully!</span>
+  <span class="absolute top-0 bottom-0 right-0 px-3 py-3">
+    <svg onclick="document.getElementById('alert2').style.display='none';" 
+         class="fill-current h-6 w-6 text-blue-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+      <title>Close</title>
+      <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+    </svg>
+  </span>
+</div>
+
+    <%}%>
+    <nav class="navbar">
+        <div class="site-name">Hostel Guider</div>
+        <button class="upload-button" onclick="window.location.href='/'">Home Page</button>
+    </nav>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Upload the details</h1>
+        </div>
+
+        <!-- Form Section -->
+        <form id="hostelForm" action="/upload" method="POST">
+            <div class="form-group">
+                <label for="location">Your hostel location</label>
+                <input type="text" id="location" name="location" placeholder="Enter location" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Your hostel name</label>
+                <input type="text" id="name" name="name" placeholder="Enter hostel name" required>
+            </div>
+            <div class="form-group">
+                <label for="contact">Your contact number</label>
+                <input type="number" id="contact" name="contact" placeholder="Contact Number" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Your hostel address</label>
+                <input type="text" id="address" name="address" placeholder="Enter hostel address" required>
+            </div>
+            <div class="form-group">
+                <label for="budget">Rent (per month)</label>
+                <input type="number" id="budget" name="budget" placeholder="Enter budget" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="1" selected>Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Facilities</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="wifi" value="1"> Wi-Fi</label>
+                    <label><input type="checkbox" name="mess" value="1"> Mess</label>
+                    <label><input type="checkbox" name="laundry" value="1"> Laundry</label>
+                    <label><input type="checkbox" name="gym" value="1"> Gym</label>
+                </div>
+            </div>
+
+            <button type="submit">Upload the details</button>
+        </form>
+    </div>
+<script>
+    
+</script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Listings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #83a4d4, #b6fbff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: transparent; /* Fully transparent background */
+            box-shadow: none;
+            z-index: 1000;
+        }
+
+        .navbar .site-name {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar .upload-button {
+            background-color: #4a90e2;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .upload-button:hover {
+            background-color: #357abf;
+        }
+
+        /* Grid Container for Cards */
+        .grid {
+            margin-top: 80px; /* Add space to avoid overlap with navbar */
+        }
+
+        /* Card Styles */
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        /* Card Header */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        /* Typography */
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="site-name">Hostel Guider</div>
+        <button class="upload-button" onclick="window.location.href='/'">Home Page</button>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <% results.forEach(function(result) { %>
+            <div class="card">
+                <div class="p-5">
+                    <div class="card-header">
+                        <h2 class="text-lg font-bold text-gray-800"><%= result.name %></h2>
+                        <span class="text-green-500 font-semibold">₹<%= result.monthly_rent %> / month</span>
+                    </div>
+                    <p class="text-gray-600 mb-2"><%= result.address %></p>
+                    <p class="text-gray-600 font-bold mb-4"><%= result.distance.toFixed(2) %> km away from your college</p>
+                    <p class="text-gray-600 font-bold mb-4">Contact: <%= result.contact_number %></p>
+                    <p class="text-gray-600 font-bold mb-1">Wifi: <%= result.wifi == 1 ? '✔️' : '❌' %></p>
+                    <p class="text-gray-600 font-bold mb-1">Mess: <%= result.mess == 1 ? '✔️' : '❌' %></p>
+                    <p class="text-gray-600 font-bold mb-1">Gym: <%= result.gym == 1 ? '✔️' : '❌' %></p>
+                    <p class="text-gray-600 font-bold">Laundry: <%= result.laundry == 1 ? '✔️' : '❌' %></p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</body>
+</html>
